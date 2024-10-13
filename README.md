@@ -14,4 +14,6 @@ This is a Node.js and Express-based RESTful API for managing products. The API a
 ## Installation
 
 1. **Clone the repository**:
+2. npm install
+   
 
