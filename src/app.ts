@@ -41,7 +41,6 @@ app.use(session({
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
 // Charger les certificats
-let certificatOptions = loadCertificate();
 
 fetch('https://fakestoreapi.com/products/')
             .then(res=>res.json())
