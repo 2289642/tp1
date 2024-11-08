@@ -11,8 +11,8 @@ import { config } from './config/config';
 import session from 'express-session';
 import fs from 'fs';
 
-
 const app = express();
+
 // Middleware de parsing du JSON
 app.use(express.json());
 
@@ -20,7 +20,9 @@ app.use(express.json());
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
-@@ -26,45 +28,47 @@ const swaggerOptions = {
+    info: {
+      title: 'API Documentation',
+      version: '1.0.0',
       description: 'A simple API to manage users',
     },
   },
@@ -37,14 +39,14 @@ app.use(session({
   }
 }));
 
-// Générer la documentation à partir des options
+// Générer la documentation à partir des options Swagger
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
-// Charger les certificats
-
+// Charger les certificats et récupérer les produits via fetch
 fetch('https://fakestoreapi.com/products/')
-            .then(res=>res.json())
-            .then(json=> fs.writeFileSync('./products.json', JSON.stringify(json, null, 2), 'utf-8'))
+  .then(res => res.json())
+  .then(json => fs.writeFileSync('./products.json', JSON.stringify(json, null, 2), 'utf-8'))
+  .catch(err => console.error('Failed to fetch products:', err));
 
 // Servir la documentation Swagger via '/api-docs'
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
@@ -54,10 +56,14 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello, TypeScript with Express! Connexion sécurisée.');
 });
 
+// Register routes
 app.use('/v1/', userRoutes);
 app.use('/v1/', productRoutes);
-app.use('/v1/users/',authRoutes);
-  
+app.use('/v1/users/', authRoutes);
+
+// Error handling middleware
 app.use(errorMiddleware);
+
+// Export the app for use in other parts of the project (e.g., server.ts)
 const httpApp = app;
 export default httpApp;
