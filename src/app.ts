@@ -57,7 +57,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/v1/', userRoutes);
 app.use('/v1/', productRoutes);
-app.use('/v1/users/',authRoutes)
+app.use('/v1/users/',authRoutes);
   
 app.use(errorMiddleware);
 
