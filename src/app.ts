@@ -59,5 +59,5 @@ app.use('/v1/', productRoutes);
 app.use('/v1/users/',authRoutes);
   
 app.use(errorMiddleware);
-
+const httpApp = app;
 export default httpApp;
